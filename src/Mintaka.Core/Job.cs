@@ -4,22 +4,20 @@ using System.Threading.Tasks;
 
 namespace Mintaka.Core
 {
-    class Job : IJob
+    abstract class Job : IJob
     {
+        private readonly IServiceProvider serviceProvider;
+
         public ISchedule Schedule { get; }
-
-        public Task<Action<CancellationToken>> Action { get; }
-
-        public bool RequiresScopedServices { get; }
 
         public Job(
             ISchedule schedule,
-            Task<Action<CancellationToken>> action,
-            bool requiresScopedServices = false)
+            IServiceProvider serviceProvider)
         {
-            Schedule = schedule;
-            Action = action;
-            RequiresScopedServices = requiresScopedServices;
+            this.Schedule = schedule;
+            this.serviceProvider = serviceProvider;
         }
+
+        public abstract Task DoJobAsync(CancellationToken cancellationToken);
     }
 }

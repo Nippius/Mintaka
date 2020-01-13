@@ -8,8 +8,7 @@ namespace Mintaka.Core
     public class MintakaScheduler : IMintakaScheduler
     {
         private readonly IEnumerable<IJob> jobs;
-        // Used to create scopes if a Job is marked as scoped
-        private readonly IServiceProvider serviceProvider;
+        private readonly CancellationToken cancellationToken;
 
         /*
          * This timer is responsible for running the ExecuteScheduler() method in a loop.
@@ -19,21 +18,21 @@ namespace Mintaka.Core
          */
         Timer timer;
 
-        public MintakaScheduler(IEnumerable<IJob> jobs, IServiceProvider serviceProvider)
+        public MintakaScheduler(IEnumerable<IJob> job)
         {
             // Create a new stoped timer
-            this.timer = new Timer(state => ExecuteScheduler(), null, TimeSpan.MaxValue, TimeSpan.MaxValue);
-            this.jobs = jobs;
-            this.serviceProvider = serviceProvider;
+            // TODO: Figure out how to do this using async/await. This is ugly..
+            timer = new Timer(state => ExecuteSchedulerAsync().GetAwaiter().GetResult(), null, TimeSpan.MaxValue, TimeSpan.MaxValue); ;
+            jobs = job;
         }
 
         public Task StartAsync()
         {
             return Task.CompletedTask;
         }
-        private void ExecuteScheduler()
+        private async Task ExecuteSchedulerAsync()
         {
-            // TODO: Run all Jobs that should run
+            // TODO: Find and run all Jobs that should run
             // TODO: Change the timer to call us again when it's time to run the next job
         }
 
