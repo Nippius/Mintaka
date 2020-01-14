@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mintaka.Core
 {
-    public class MintakaScheduler : IMintakaScheduler
+    public class MintakaScheduler : IMintakaScheduler, IDisposable
     {
         private readonly IEnumerable<IJob> jobs;
         private readonly CancellationToken cancellationToken;
@@ -21,8 +21,7 @@ namespace Mintaka.Core
         public MintakaScheduler(IEnumerable<IJob> job)
         {
             // Create a new stoped timer
-            // TODO: Figure out how to do this using async/await. This is ugly..
-            timer = new Timer(state => ExecuteSchedulerAsync().GetAwaiter().GetResult(), null, TimeSpan.MaxValue, TimeSpan.MaxValue); ;
+            timer = new Timer(async state => await ExecuteSchedulerAsync(), null, TimeSpan.MaxValue, TimeSpan.MaxValue); ;
             jobs = job;
         }
 
@@ -40,5 +39,27 @@ namespace Mintaka.Core
         {
             throw new NotImplementedException();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    timer.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
