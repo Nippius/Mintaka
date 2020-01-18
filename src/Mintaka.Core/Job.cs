@@ -18,6 +18,14 @@ namespace Mintaka.Core
             this.serviceProvider = serviceProvider;
         }
 
+
+        /*
+         * Alterar a class Job para implementar um metodo RunAsync() 
+         * que chama o DoJobAsync() e no fim, actualiza o schedule para 
+         * apontar para a data da proxima execução
+         * a interface ISchedule podia ter um método chamado UpdateNextRun() 
+         * por exemplo que o RunAsync() iria chamar
+         */
         public abstract Task DoJobAsync(CancellationToken cancellationToken);
     }
 }
