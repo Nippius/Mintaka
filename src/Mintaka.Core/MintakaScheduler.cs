@@ -20,7 +20,7 @@ namespace Mintaka.Core
         public MintakaScheduler(IEnumerable<IJob> job)
         {
             // Create a new stoped timer
-            timer = new Timer(async state => await ExecuteSchedulerAsync(), null, TimeSpan.MaxValue, TimeSpan.MaxValue); ;
+            timer = new Timer(async state => await ExecuteSchedulerAsync(), null, Timeout.Infinite, Timeout.Infinite); ;
             jobs = job;
         }
 
