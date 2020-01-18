@@ -8,7 +8,6 @@ namespace Mintaka.Core
     public class MintakaScheduler : IMintakaScheduler, IDisposable
     {
         private readonly IEnumerable<IJob> jobs;
-        private readonly CancellationToken cancellationToken;
 
         /*
          * This timer is responsible for running the ExecuteScheduler() method in a loop.
@@ -27,12 +26,13 @@ namespace Mintaka.Core
 
         public Task StartAsync()
         {
-            return Task.CompletedTask;
+            throw new NotImplementedException();
         }
-        private async Task ExecuteSchedulerAsync()
+        private Task ExecuteSchedulerAsync()
         {
             // TODO: Find and run all Jobs that should run
             // TODO: Change the timer to call us again when it's time to run the next job
+            throw new NotImplementedException();
         }
 
         public Task StopAsync()

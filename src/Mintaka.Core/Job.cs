@@ -18,7 +18,6 @@ namespace Mintaka.Core
             this.serviceProvider = serviceProvider;
         }
 
-
         /*
          * Alterar a class Job para implementar um metodo RunAsync() 
          * que chama o DoJobAsync() e no fim, actualiza o schedule para 
