@@ -21,12 +21,11 @@ namespace HelloMintaka.Jobs
 
         public override void DoJob(CancellationToken cancellationToken)
         {
-            using (var scope = serviceProvider.CreateScope())
-            {
-                var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+            using var scope = serviceProvider.CreateScope();
 
-                logger.LogInformation($"Hello from Mintaka! Current UTC time: {DateTime.Now}");
-            }
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+
+            logger.LogInformation($"Hello from Mintaka! Current UTC time: {DateTime.Now}");
         }
     }
 }
