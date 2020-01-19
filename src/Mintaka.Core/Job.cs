@@ -1,30 +1,14 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mintaka.Core
 {
-    abstract class Job : IJob
+    // TODO: To make a Job stop running/run only once, set NextExecution
+    //          to Timeout.InifiniteTimeSpan after DoJob() finishes
+    public abstract class Job : IJob
     {
-        private readonly IServiceProvider serviceProvider;
+        public abstract TimeSpan NextExecution { get; }
 
-        public ISchedule Schedule { get; }
-
-        public Job(
-            ISchedule schedule,
-            IServiceProvider serviceProvider)
-        {
-            this.Schedule = schedule;
-            this.serviceProvider = serviceProvider;
-        }
-
-        /*
-         * Alterar a class Job para implementar um metodo RunAsync() 
-         * que chama o DoJobAsync() e no fim, actualiza o schedule para 
-         * apontar para a data da proxima execução
-         * a interface ISchedule podia ter um método chamado UpdateNextRun() 
-         * por exemplo que o RunAsync() iria chamar
-         */
-        public abstract Task DoJobAsync(CancellationToken cancellationToken);
+        public abstract void DoJob(CancellationToken cancellationToken);
     }
 }

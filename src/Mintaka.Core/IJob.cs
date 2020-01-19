@@ -6,8 +6,8 @@ namespace Mintaka.Core
 {
     public interface IJob
     {
-        ISchedule Schedule { get; }
+        TimeSpan NextExecution { get; }
 
-        Task DoJobAsync(CancellationToken cancellationToken);
+        void DoJob(CancellationToken cancellationToken);
     }
 }
