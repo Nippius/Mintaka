@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ncrontab" Version="3.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Mintaka.Core\Mintaka.Core.csproj" />
     <ProjectReference Include="..\..\src\Mintaka\Mintaka.csproj" />
   </ItemGroup>

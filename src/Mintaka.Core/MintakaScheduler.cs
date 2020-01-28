@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mintaka.Core
 {
+    // TODO: Add support for cancelation tokens
     public class MintakaScheduler : IMintakaScheduler, IDisposable
     {
         private readonly IEnumerable<IJob> jobs;
@@ -17,27 +18,41 @@ namespace Mintaka.Core
          */
         Timer timer;
 
-        public MintakaScheduler(IEnumerable<IJob> job)
+        public MintakaScheduler(IEnumerable<IJob> jobs)
         {
             // Create a new stoped timer
-            timer = new Timer(async state => await ExecuteSchedulerAsync(), null, Timeout.Infinite, Timeout.Infinite); ;
-            jobs = job;
+            timer = new Timer(state => ExecuteScheduler(), null, Timeout.Infinite, Timeout.Infinite); ;
+            this.jobs = jobs;
         }
 
-        public Task StartAsync()
+        public void Start()
         {
-            throw new NotImplementedException();
+            // TODO: Change this to find the first job to run and set the timer to run at that time
+            timer.Change(0, 0);
         }
-        private Task ExecuteSchedulerAsync()
+        private void ExecuteScheduler()
         {
+            StopTimer();
+
             // TODO: Find and run all Jobs that should run
             // TODO: Change the timer to call us again when it's time to run the next job
-            throw new NotImplementedException();
+
+            RescheduleAndRestartTimer(TimeSpan.Zero);
         }
 
-        public Task StopAsync()
+        public void Stop()
         {
-            throw new NotImplementedException();
+            StopTimer();
+        }
+
+        private void RescheduleAndRestartTimer(TimeSpan nextExecutionTime)
+        {
+            timer.Change(nextExecutionTime, Timeout.InfiniteTimeSpan);
+        }
+
+        private void StopTimer()
+        {
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         #region IDisposable Support

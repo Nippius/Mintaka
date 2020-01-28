@@ -4,8 +4,8 @@ namespace Mintaka.Core
 {
     public interface IMintakaScheduler
     {
-        Task StartAsync();
+        void Start();
 
-        Task StopAsync();
+        void Stop();
     }
 }
