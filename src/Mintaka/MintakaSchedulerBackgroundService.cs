@@ -15,14 +15,16 @@ namespace Mintaka
             this.scheduler = scheduler;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            await scheduler.StartAsync();
+            scheduler.Start();
+            return Task.CompletedTask;
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
-            await scheduler.StopAsync();
+            scheduler.Stop();
+            return Task.CompletedTask;
         }
     }
 }
